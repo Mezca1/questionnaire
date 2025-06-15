@@ -71,17 +71,28 @@
         </el-form-item>
         
         <el-form-item label="问题列表">
-          <div v-for="(question, index) in questionnaireForm.questions" :key="index" class="question-item">
-            <el-row :gutter="20">
-              <el-col :span="20">
-                <el-input v-model="question.text" placeholder="请输入问题内容" />
-              </el-col>
-              <el-col :span="4">
-                <el-button type="danger" @click="removeQuestion(index)">删除</el-button>
-              </el-col>
-            </el-row>
+          <div class="questions-container">
+            <div v-for="(question, index) in questionnaireForm.questions" :key="index" class="question-item">
+              <el-row :gutter="20">
+                <el-col :span="20">
+                  <el-input v-model="question.text" placeholder="请输入问题内容" />
+                </el-col>
+                <el-col :span="4">
+                  <el-button type="danger" @click="removeQuestion(index)">删除</el-button>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="add-question-wrapper">
+              <el-button 
+                type="primary" 
+                @click="addQuestion"
+                class="add-question-btn"
+                :icon="Plus"
+              >
+                添加问题
+              </el-button>
+            </div>
           </div>
-          <el-button type="primary" @click="addQuestion">添加问题</el-button>
         </el-form-item>
       </el-form>
       
@@ -163,6 +174,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { questionnaires } from '../api'
+import { Plus } from '@element-plus/icons-vue'
 
 export default {
   name: 'DashboardPage',
@@ -312,7 +324,8 @@ export default {
       shareQuestionnaire,
       copyShareUrl,
       viewAnswers,
-      viewMyAnswers
+      viewMyAnswers,
+      Plus
     }
   }
 }
@@ -341,20 +354,39 @@ export default {
   align-items: center;
 }
 
+.questions-container {
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  padding: 20px;
+  background-color: #fff;
+}
+
 .question-item {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding: 15px;
   border: 1px solid #ebeef5;
   border-radius: 4px;
+  background-color: #fafafa;
 }
 
-.options-list {
-  margin-top: 10px;
-  padding-left: 20px;
+.add-question-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed #dcdfe6;
 }
 
-.option-item {
-  margin-bottom: 10px;
+.add-question-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.add-question-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.1);
 }
 
 .dialog-footer {
